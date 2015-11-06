@@ -23,6 +23,8 @@ dependencies:
 test:
   override:
     - bats --tap test.bats
+  post:
+    - docker logs
 
 deployment:
   hub:
