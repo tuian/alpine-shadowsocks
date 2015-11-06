@@ -1,0 +1,31 @@
+machine:
+  environment:
+    IMAGE_NAME: alpine-shadowsocks
+    IMAGE_TAGS: "latest"
+    IMAGE_OWNER: surecomms
+    # HUB_USERNAME, HUB_PASSWORD and HUB_EMAIL should be configured from the CircleCI project settings
+  services:
+    - docker
+  pre:
+    - git clone https://github.com/sstephenson/bats.git
+    - sudo ./bats/install.sh /usr/local
+
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
+
+dependencies:
+  override:
+    - docker info
+    - docker-build-tools/build.sh --image-name=${IMAGE_NAME} --image-owner=${IMAGE_OWNER} --image-tags="${IMAGE_TAGS}"
+
+test:
+  override:
+    - bats --tap test.bats
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker-build-tools/publish.sh --image-name=${IMAGE_NAME} --image-owner=${IMAGE_OWNER} --image-tags="${IMAGE_TAGS}"

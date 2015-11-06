@@ -1,0 +1,3 @@
+[submodule "docker-build-tools"]
+	path = docker-build-tools
+	url = https://github.com/surecomms/docker-build-tools
