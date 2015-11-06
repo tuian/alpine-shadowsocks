@@ -20,10 +20,6 @@ dependencies:
     - docker info
     - docker-build-tools/build.sh --image-name=${IMAGE_NAME} --image-owner=${IMAGE_OWNER} --image-tags="${IMAGE_TAGS}"
 
-test:
-  override:
-    - bats --tap test.bats
-
 deployment:
   hub:
     branch: master
